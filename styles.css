@@ -9,9 +9,7 @@
       flex-direction: column;
     }
 
-    /* ════════════════════════════════
-       1. HEADER
-    ════════════════════════════════ */
+    /* 1. HEADER */
     #header {
       display: flex;
       align-items: center;
@@ -20,9 +18,24 @@
       gap: 1rem;
       padding: 1rem 1.5rem;
       border-bottom: 1px solid #e0e0e0;
+      background-color: orange;
     }
 
-    #header .logo {}             /* logo mark + wordmark wrapper */
+    #header .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    #header .logo p,a {
+        color: white;
+    }
+
+    #logoImage {
+        width: 40px; /* Adjust as needed */
+        height: auto;
+    }
+    
     #header nav {}               /* navigation link list */
     #header nav ul {
       list-style: none;
@@ -115,9 +128,7 @@
     #newsletter .newsletter-form button {}
 
 
-    /* ════════════════════════════════
-       5. FOOTER
-    ════════════════════════════════ */
+    /* 5. FOOTER */
     #footer {
       display: flex;
       flex-wrap: wrap;
@@ -136,6 +147,16 @@
     #footer .footer-help ul { list-style: none; }
     #footer .footer-help ul li a {}
 
-    #footer .footer-brand {}          /* logo repeat */
-    #footer .footer-brand img {}
-    #footer .footer-brand p {}
+    #footer .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+    #footer .footer-brand img {
+        width: 40px; /* Adjust as needed */
+        height: auto;
+        display: block;
+    }
+    #footer .footer-brand p,a {
+        color: black;
+    }
