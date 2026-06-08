@@ -1,8 +1,141 @@
-.header{
-    height: 100px;
-    color: orange;
-    background-color: orange;
-    /*display: flex;
-    align-items: center;
-    justify-content: center;*/
-}
+/* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Base ── */
+    body {
+      font-family: sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ════════════════════════════════
+       1. HEADER
+    ════════════════════════════════ */
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;           /* collapses nav on small screens */
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    #header .logo {}             /* logo mark + wordmark wrapper */
+    #header nav {}               /* navigation link list */
+    #header nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    #header nav ul li a {}
+
+
+    /* ════════════════════════════════
+       2. HERO SECTION  (CSS Grid)
+    ════════════════════════════════ */
+    #hero {
+      /* Mobile-first: single column */
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.5rem;
+      padding: 2rem 1.5rem;
+      background-color: #1e2330;  /* dark background matching wireframe */
+    }
+
+    /* Tablet / Desktop: two columns */
+    @media (min-width: 640px) {
+      #hero {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "title  image"
+          "quote  image";
+        align-items: center;
+      }
+      #hero .hero-title  { grid-area: title; }
+      #hero .hero-quote  { grid-area: quote; }
+      #hero .hero-image  { grid-area: image; }
+    }
+
+    #hero .hero-title  {}        /* h1 */
+    #hero .hero-quote  {}        /* blockquote / p — Travel quotes or highlights */
+    #hero .hero-image  {}        /* img placeholder */
+    #hero .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+
+    /* ════════════════════════════════
+       3. DESTINATION OF THE DAY
+    ════════════════════════════════ */
+    #destination-of-the-day {
+      display: flex;
+      flex-wrap: wrap;           /* stacks on mobile */
+      gap: 1.5rem;
+      padding: 2rem 1.5rem;
+      align-items: flex-start;
+    }
+
+    #destination-of-the-day .dotd-info {}      /* heading + destination name */
+    #destination-of-the-day .dotd-info h2 {}
+    #destination-of-the-day .dotd-info p  {}
+
+    #destination-of-the-day .dotd-image {}     /* img placeholder */
+    #destination-of-the-day .dotd-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    #destination-of-the-day .dotd-stats {}     /* stats & summary box */
+
+
+    /* ════════════════════════════════
+       4. NEWSLETTER SECTION
+    ════════════════════════════════ */
+    #newsletter {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background-color: #1e2330;
+    }
+
+    #newsletter .newsletter-icon {}            /* mail icon / svg */
+    #newsletter .newsletter-label {}           /* "Subscribe to our Newsletter" text */
+    #newsletter .newsletter-label p {}
+    #newsletter .newsletter-form {}            /* email input + submit */
+    #newsletter .newsletter-form input[type="email"] { width: 100%; }
+    #newsletter .newsletter-form button {}
+
+
+    /* ════════════════════════════════
+       5. FOOTER
+    ════════════════════════════════ */
+    #footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 2rem 1.5rem;
+      margin-top: auto;
+    }
+
+    #footer .footer-explore {}        /* "Explore" column */
+    #footer .footer-explore h3 {}
+    #footer .footer-explore ul { list-style: none; }
+    #footer .footer-explore ul li a {}
+
+    #footer .footer-help {}           /* "Help" column */
+    #footer .footer-help h3 {}
+    #footer .footer-help ul { list-style: none; }
+    #footer .footer-help ul li a {}
+
+    #footer .footer-brand {}          /* logo repeat */
+    #footer .footer-brand img {}
+    #footer .footer-brand p {}
