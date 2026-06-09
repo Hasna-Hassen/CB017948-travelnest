@@ -1,12 +1,22 @@
 /* ── Reset ── */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* ── Base ── */
     body {
-      font-family: sans-serif;
+      font-family: 'Noto Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #add8e6; /* light blue */
     }
 
     /* 1. HEADER */
@@ -16,9 +26,9 @@
       justify-content: space-between;
       flex-wrap: wrap;           /* collapses nav on small screens */
       gap: 1rem;
-      padding: 0.4rem 1.5rem;
-      border-bottom: 1px solid #e0e0e0;
-      background-color: orange;
+      padding: 0.8rem 1.5rem;
+      border-bottom: none;
+      background-color: #162E93;
     }
 
     #header .logo {
@@ -115,17 +125,21 @@
       gap: 1.5rem;
       padding: 2rem 1.5rem;
       margin-top: auto;
-      background-color: #1e2330;
+      background-color: #162E93;
+      align-items: center;        /* centers children horizontally */
+      text-align: center;         /* centers inline text */
     }
 
     /* Newsletter row — sits at the top of the footer */
     #footer .footer-newsletter {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       align-items: center;
       gap: 1rem;
       padding-bottom: 1.5rem;
       border-bottom: 1px solid rgba(255,255,255,0.15);
+      width: 100%;
     }
 
     #footer .footer-newsletter .newsletter-label p {
@@ -152,7 +166,7 @@
       padding: 0.4rem 1rem;
       border-radius: 4px;
       border: none;
-      background-color: orange;
+      background-color: #1A1953;
       color: white;
       cursor: pointer;
     }
@@ -162,6 +176,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
+      justify-content: center;
     }
 
     #footer .footer-explore {}
