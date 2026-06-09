@@ -16,7 +16,7 @@
       justify-content: space-between;
       flex-wrap: wrap;           /* collapses nav on small screens */
       gap: 1rem;
-      padding: 1rem 1.5rem;
+      padding: 0.4rem 1.5rem;
       border-bottom: 1px solid #e0e0e0;
       background-color: orange;
     }
@@ -108,55 +108,80 @@
     #destination-of-the-day .dotd-stats {}     /* stats & summary box */
 
 
-    /* ════════════════════════════════
-       4. NEWSLETTER SECTION
-    ════════════════════════════════ */
-    #newsletter {
+    /* 5. FOOTER */
+    #footer {
+      display: flex;
+      flex-direction: column;   /* stack newsletter above the links row */
+      gap: 1.5rem;
+      padding: 2rem 1.5rem;
+      margin-top: auto;
+      background-color: #1e2330;
+    }
+
+    /* Newsletter row — sits at the top of the footer */
+    #footer .footer-newsletter {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 1rem;
-      padding: 1.5rem;
-      background-color: #1e2330;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
-    #newsletter .newsletter-icon {}            /* mail icon / svg */
-    #newsletter .newsletter-label {}           /* "Subscribe to our Newsletter" text */
-    #newsletter .newsletter-label p {}
-    #newsletter .newsletter-form {}            /* email input + submit */
-    #newsletter .newsletter-form input[type="email"] { width: 100%; }
-    #newsletter .newsletter-form button {}
+    #footer .footer-newsletter .newsletter-label p {
+      color: white;
+    }
 
+    #footer .footer-newsletter .newsletter-form {
+      display: flex;
+      gap: 0.5rem;
+    }
 
-    /* 5. FOOTER */
-    #footer {
+    #footer .footer-newsletter .newsletter-icon img {
+      width: 30px;
+      height: auto;
+    }
+
+    #footer .footer-newsletter .newsletter-form input[type="email"] {
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      border: none;
+    }
+
+    #footer .footer-newsletter .newsletter-form button {
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      border: none;
+      background-color: orange;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Links + logo row */
+    #footer .footer-links-row {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
-      padding: 2rem 1.5rem;
-      margin-top: auto;
     }
 
-    #footer .footer-explore {}        /* "Explore" column */
-    #footer .footer-explore h3 {}
+    #footer .footer-explore {}
+    #footer .footer-explore h3 { color: white; }
     #footer .footer-explore ul { list-style: none; }
-    #footer .footer-explore ul li a {}
+    #footer .footer-explore ul li a { color: white; }
 
-    #footer .footer-help {}           /* "Help" column */
-    #footer .footer-help h3 {}
+    #footer .footer-help {}
+    #footer .footer-help h3 { color: white; }
     #footer .footer-help ul { list-style: none; }
-    #footer .footer-help ul li a {}
+    #footer .footer-help ul li a { color: white; }
 
     #footer .footer-brand {
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
     }
     #footer .footer-brand img {
-        width: 40px; /* Adjust as needed */
-        height: auto;
-        display: block;
+      width: 40px;
+      height: auto;
+      display: block;
     }
-    #footer .footer-brand p,a {
-        color: black;
-    }
+    #footer .footer-brand p { color: white; }
