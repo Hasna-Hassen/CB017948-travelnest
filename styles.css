@@ -397,3 +397,345 @@
       display: block;
     }
     #footer .footer-brand p { color: white; }
+
+    /* =========================
+   Destination Explorer Page
+========================= */
+
+:root {
+  --primary-blue: #1e6fd9;
+  --dark-blue: #143f7d;
+  --light-blue: #eef6ff;
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  --white: #ffffff;
+  --card-border: #e5e7eb;
+  --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 18px 35px rgba(0, 0, 0, 0.18);
+}
+
+/* Keep this only if your body does not already have styling */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--white);
+  color: var(--text-dark);
+}
+
+.destination-page {
+  background-color: var(--white);
+  min-height: 100vh;
+}
+
+/* Top page heading */
+.destination-hero {
+  text-align: center;
+  padding: 3.5rem 1.2rem 2rem;
+}
+
+.destination-hero h1 {
+  color: var(--primary-blue);
+  font-size: 2.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.destination-hero p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Filter row */
+.filter-section {
+  width: min(1100px, 92%);
+  margin: 0 auto 2rem;
+}
+
+.filter-section p {
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.filter-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.filter-controls select,
+.search-box input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  background-color: var(--white);
+  outline: none;
+}
+
+.filter-controls select:focus,
+.search-box input:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(30, 111, 217, 0.12);
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding-right: 2.8rem;
+}
+
+.search-box span {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Cards */
+.cards-section {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+.destination-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.destination-card {
+  background-color: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.destination-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.destination-card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+}
+
+.destination-card-content {
+  padding: 1rem;
+  text-align: center;
+}
+
+.destination-card-content h2 {
+  margin: 0 0 0.4rem;
+  color: var(--dark-blue);
+  font-size: 1.2rem;
+}
+
+.destination-card-content p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.no-results {
+  display: none;
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 2rem;
+}
+
+/* =========================
+   Modal
+========================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.68);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 999;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-box {
+  background-color: var(--white);
+  width: min(1050px, 96%);
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 1.2rem;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  animation: modalPop 0.25s ease;
+}
+
+@keyframes modalPop {
+  from {
+    transform: scale(0.95) translateY(15px);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  background: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.close-modal:hover {
+  background-color: var(--dark-blue);
+}
+
+.modal-content {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.modal-image-wrapper img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-details {
+  padding: 1.5rem;
+}
+
+.modal-details h2 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin: 0 0 0.8rem;
+}
+
+.modal-details p {
+  color: var(--text-dark);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.modal-lower-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.attractions-box,
+.cost-box {
+  background-color: var(--light-blue);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.attractions-box h3,
+.cost-box h3 {
+  margin-top: 0;
+  color: var(--dark-blue);
+}
+
+.attractions-box ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0;
+}
+
+.attractions-box li {
+  margin-bottom: 0.5rem;
+}
+
+.cost-box {
+  overflow-x: auto;
+}
+
+.cost-box table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--white);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+
+.cost-box th,
+.cost-box td {
+  border: 1px solid var(--card-border);
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.cost-box th {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+/* Tablet */
+@media (min-width: 700px) {
+  .destination-hero h1 {
+    font-size: 2.7rem;
+  }
+
+  .filter-controls {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .filter-controls select {
+    max-width: 220px;
+  }
+
+  .search-box {
+    max-width: 330px;
+    width: 100%;
+  }
+
+  .destination-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-lower-content {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1000px) {
+  .destination-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .modal-content {
+    grid-template-columns: 40% 60%;
+  }
+
+  .modal-image-wrapper img {
+    height: 100%;
+    min-height: 520px;
+  }
+}

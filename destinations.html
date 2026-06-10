@@ -27,7 +27,91 @@
     </nav>
 
   </header>
+  <main class="destination-page">
 
+    <section class="destination-hero">
+      <h1>Looking for your next Destination?</h1>
+      <p>We’ve got you covered.</p>
+    </section>
+
+    <section class="filter-section">
+      <p>Limit destinations according to your preference</p>
+
+      <div class="filter-controls">
+        <select id="continentFilter" aria-label="Filter by continent">
+          <option value="all">All Continents</option>
+          <option value="Africa">Africa</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="North America">North America</option>
+          <option value="South America">South America</option>
+          <option value="Oceania">Oceania</option>
+        </select>
+
+        <div class="search-box">
+          <input 
+            type="text" 
+            id="destinationSearch" 
+            placeholder="Search by name"
+            aria-label="Search destination by name"
+          />
+          <span>🔍</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards-section">
+      <div id="destinationCards" class="destination-grid"></div>
+      <p id="noResultsMessage" class="no-results">No destinations found.</p>
+    </section>
+
+  </main>
+
+  <!-- Modal -->
+  <div id="destinationModal" class="modal-overlay">
+    <div class="modal-box">
+
+      <button id="closeModal" class="close-modal" aria-label="Close destination details">
+        &times;
+      </button>
+
+      <div class="modal-content">
+
+        <div class="modal-image-wrapper">
+          <img id="modalImage" src="" alt="" />
+        </div>
+
+        <div class="modal-details">
+          <h2 id="modalTitle"></h2>
+
+          <p id="modalDescription"></p>
+
+          <div class="modal-lower-content">
+            <div class="attractions-box">
+              <h3>Popular Attractions</h3>
+              <ul id="modalAttractions"></ul>
+            </div>
+
+            <div class="cost-box">
+              <h3>Travel Cost Comparison</h3>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Budget Type</th>
+                    <th>Daily Cost</th>
+                    <th>Includes</th>
+                  </tr>
+                </thead>
+                <tbody id="modalCostTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 
     <!--5. FOOTER -->
