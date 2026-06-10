@@ -31,21 +31,48 @@
 
 
   <!-- 2. HERO -->
-  <section id="hero">
+  <main>
+  <section 
+  id="hero" 
+  aria-labelledby="hero-heading"
+  style="--hero-bg: url('images/bali.jpg'); --next-hero-bg: url('images/bali.jpg');"
+>
 
-    <div class="hero-title">
-      <h1>Welcome To TravelNest</h1>
-    </div>
+    <div class="hero-content">
 
-    <div class="hero-quote">
-      <p></p>     <!-- Travel quote or destination highlights -->
+      <p class="hero-kicker">Your journey starts here</p>
+
+      <div class="hero-title">
+        <h1 id="hero-heading">Welcome To TravelNest</h1>
+      </div>
+
+      <p class="hero-description">
+        Discover destinations, plan your budget, save travel ideas, and create trips that match your mood.
+      </p>
+
+      <div class="hero-quote" aria-live="polite">
+        <p id="heroHighlight">“Adventure awaits in every corner of the world.”</p>
+        <span id="heroPlace">Bali, Indonesia</span>
+      </div>
+
+      <div class="hero-buttons">
+        <a href="destinations.html" class="hero-btn primary-btn">Explore Destinations</a>
+        <a href="generate.html" class="hero-btn secondary-btn">Generate Trip</a>
+      </div>
+
     </div>
 
     <div class="hero-image">
-      <img src="" alt="" />
+      <img 
+        id="heroImage"
+        src="images/bali.jpg" 
+        alt="Beach destination in Bali"
+      />
     </div>
 
   </section>
+
+  <!-- keep your Destination of the Day section below this -->
 
 
   <!-- ═══════════════════════════
@@ -67,7 +94,7 @@
     </div>
 
   </section>
-
+  </main>
   <!--5. FOOTER -->
   <footer id="footer">
 
