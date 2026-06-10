@@ -244,6 +244,54 @@
   }
 }
 
+/* HERO BUTTON FIX */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.hero-actions .btn,
+.hero-actions a,
+.hero-actions button {
+    width: auto;
+    min-width: 190px;
+    max-width: 260px;
+    height: 56px;
+    padding: 0.9rem 1.6rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    flex: 0 0 auto;
+}
+
+/* Optional: make the main button a little wider */
+.hero-actions .primary-btn {
+    min-width: 230px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-actions .btn,
+    .hero-actions a,
+    .hero-actions button {
+        width: 100%;
+        max-width: none;
+    }
+}
+
 
     /* ════════════════════════════════
 3. DESTINATION OF THE DAY - MOBILE FIRST
@@ -638,13 +686,20 @@ body {
 .modal-details p {
   color: var(--text-dark);
   line-height: 1.7;
-  margin-bottom: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .modal-lower-content {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+}
+
+.modal-left-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .attractions-box,
@@ -1001,4 +1056,333 @@ body {
     width: fit-content;
     align-self: flex-end;
   }
+}
+
+/* ============================= */
+/* Random Trip Generator Page */
+/* ============================= */
+
+.random-page {
+  padding: 3rem 1rem;
+  background-color: #ffffff;
+}
+
+.random-intro {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.random-intro h1 {
+  color: #162e93;
+  font-size: clamp(2rem, 7vw, 4rem);
+  margin-bottom: 0.6rem;
+}
+
+.random-intro p {
+  color: #555;
+  font-size: 1rem;
+}
+
+.random-generator {
+  width: min(100%, 1050px);
+  margin: 0 auto;
+}
+
+.random-form {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.random-form label {
+  font-weight: 700;
+  color: #333;
+}
+
+.random-form select,
+.random-main-btn {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.random-form select {
+  border: 2px solid #dce6ff;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.random-form select:focus {
+  outline: none;
+  border-color: #162e93;
+  box-shadow: 0 0 0 4px rgba(22, 46, 147, 0.12);
+}
+
+.random-main-btn,
+.random-buttons button {
+  border: none;
+  background-color: #162e93;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.random-main-btn:hover,
+.random-buttons button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(22, 46, 147, 0.22);
+}
+
+.random-result {
+  border: 2px solid #e3ebff;
+  border-radius: 22px;
+  padding: 1rem;
+  background-color: #f9fbff;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
+}
+
+.hidden {
+  display: none;
+}
+
+.result-label {
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.random-result-content {
+  display: grid;
+  gap: 1rem;
+}
+
+.random-result-content img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  background-color: #e6ecf8;
+}
+
+.random-result-text h2 {
+  color: #162e93;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.random-result-text p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 0.7rem;
+}
+
+.random-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.random-tags span {
+  background-color: #eaf2ff;
+  color: #162e93;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.random-buttons {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.random-buttons button {
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.wishlist-message {
+  min-height: 1.4rem;
+  color: #0b7a3b;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+.wishlist-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f0f5ff;
+  border-radius: 18px;
+}
+
+.wishlist-section h2 {
+  color: #162e93;
+  margin-bottom: 0.4rem;
+}
+
+.wishlist-section p {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.wishlist-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.wishlist-section li {
+  background-color: #ffffff;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.6rem;
+  border-left: 5px solid #162e93;
+  border-radius: 10px;
+  color: #333;
+  font-weight: 600;
+}
+
+.random-pop {
+  animation: randomPop 0.45s ease;
+}
+
+@keyframes randomPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (min-width: 700px) {
+  .random-form {
+    grid-template-columns: auto 1fr 1fr auto;
+    align-items: center;
+  }
+
+  .random-result {
+    padding: 1.5rem;
+  }
+
+  .random-result-content {
+    grid-template-columns: 1fr 1.3fr;
+    align-items: center;
+  }
+
+  .random-result-content img {
+    height: 280px;
+  }
+
+  .random-buttons {
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;
+  }
+}
+
+.reset-shake {
+  animation: resetShake 0.35s ease;
+}
+
+@keyframes resetShake {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
+
+  75% {
+    transform: translateX(-4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Final home hero button sizing */
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Reset any global button styles only inside hero */
+.hero-buttons .btn {
+    height: 58px;
+    border-radius: 12px;
+    padding: 0 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    flex: 0 0 auto !important;
+}
+
+/* Main button */
+.hero-buttons .primary-btn {
+    width: 270px !important;
+}
+
+/* Smaller button */
+.hero-buttons .secondary-btn {
+    width: 165px !important;
+}
+
+/* Mobile layout */
+@media (max-width: 650px) {
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-buttons .primary-btn,
+    .hero-buttons .secondary-btn {
+        width: 100% !important;
+    }
+}
+
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.hero-buttons .btn {
+    height: 58px;
+    margin: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.hero-buttons .primary-btn {
+    width: 270px;
+}
+
+.hero-buttons .secondary-btn {
+    width: 165px;
+}
+
+.hero-buttons .primary-btn {
+    position: relative !important;
+    top: 11px !important;
 }

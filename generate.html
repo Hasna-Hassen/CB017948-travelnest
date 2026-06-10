@@ -28,6 +28,70 @@
 
   </header>
 
+  <main>
+  <section class="random-page">
+    <div class="random-intro reveal">
+      <h1>Can't choose where to go?</h1>
+      <p>Let us generate a random trip idea for you!</p>
+    </div>
+
+    <section class="random-generator reveal" aria-labelledby="randomTripTitle">
+      <form id="randomTripForm" class="random-form">
+        <label for="travelType">Choose</label>
+
+        <select id="travelType" required>
+          <option value="">Travel type</option>
+          <option value="adventure">Adventure</option>
+          <option value="relaxation">Relaxation</option>
+          <option value="cultural">Cultural</option>
+          <option value="nature">Nature</option>
+        </select>
+
+        <select id="budgetRange" required>
+          <option value="">Budget range</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+
+        <button type="submit" class="random-main-btn">Generate Trip</button>
+      </form>
+
+      <article id="randomResultBox" class="random-result hidden">
+        <p class="result-label">Your destination is...</p>
+
+        <div class="random-result-content">
+          <img id="randomImage" src="" alt="" />
+
+          <div class="random-result-text">
+            <h2 id="randomName">(name)!</h2>
+            <p id="randomLocation"></p>
+            <p id="randomDescription"></p>
+
+            <div class="random-tags">
+              <span id="randomType"></span>
+              <span id="randomBudget"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="random-buttons">
+          <button id="saveWishlistBtn" type="button">Save to Wishlist</button>
+          <button id="surpriseAgainBtn" type="button">Surprise Me Again</button>
+        </div>
+
+        <p id="wishlistMessage" class="wishlist-message"></p>
+      </article>
+
+      <section class="wishlist-section">
+        <h2>My Wishlist</h2>
+        <p>Saved destinations will appear here.</p>
+        <ul id="wishlistList"></ul>
+      </section>
+    </section>
+  </section>
+  </main>
+
 
 
     <!--5. FOOTER -->

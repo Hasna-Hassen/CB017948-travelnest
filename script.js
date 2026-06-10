@@ -667,32 +667,32 @@ function closeDestinationModal() {
   document.body.style.overflow = "auto";
 }
 
-/* =========================
-   Event Listeners
-========================= */
+if (
+  destinationCards &&
+  continentFilter &&
+  destinationSearch &&
+  noResultsMessage &&
+  modal &&
+  closeModal
+) {
+  continentFilter.addEventListener("change", filterDestinations);
+  destinationSearch.addEventListener("input", filterDestinations);
+  closeModal.addEventListener("click", closeDestinationModal);
 
-continentFilter.addEventListener("change", filterDestinations);
-destinationSearch.addEventListener("input", filterDestinations);
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      closeDestinationModal();
+    }
+  });
 
-closeModal.addEventListener("click", closeDestinationModal);
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeDestinationModal();
+    }
+  });
 
-modal.addEventListener("click", function(event) {
-  if (event.target === modal) {
-    closeDestinationModal();
-  }
-});
-
-document.addEventListener("keydown", function(event) {
-  if (event.key === "Escape") {
-    closeDestinationModal();
-  }
-});
-
-/* =========================
-   Initial Load
-========================= */
-
-displayDestinations(destinations);
+  displayDestinations(destinations);
+}
 
 /* ============================= */
 /* Trip Budget Planner */
@@ -937,3 +937,232 @@ if (hamburgerBtn && navLinks) {
 
 /* Load saved budgets when page opens */
 displaySavedBudgets();
+
+/* ============================= */
+/* Reusable localStorage helpers */
+/* ============================= */
+
+function getStoredItems(key) {
+  return JSON.parse(localStorage.getItem(key)) || [];
+}
+
+function saveStoredItems(key, items) {
+  localStorage.setItem(key, JSON.stringify(items));
+}
+
+/* ============================= */
+/* Random Trip Generator Tags */
+/* Reuses the existing destinations array */
+/* ============================= */
+
+const destinationTripTags = {
+  Kyoto: { type: "cultural", budget: "high" },
+  Bali: { type: "relaxation", budget: "medium" },
+  Dubai: { type: "relaxation", budget: "high" },
+  Bangkok: { type: "cultural", budget: "low" },
+  Maldives: { type: "relaxation", budget: "high" },
+
+  Paris: { type: "cultural", budget: "high" },
+  Santorini: { type: "relaxation", budget: "high" },
+  Rome: { type: "cultural", budget: "medium" },
+  "Swiss Alps": { type: "nature", budget: "high" },
+  Barcelona: { type: "cultural", budget: "medium" },
+
+  "Cape Town": { type: "nature", budget: "medium" },
+  Marrakech: { type: "cultural", budget: "low" },
+  Serengeti: { type: "nature", budget: "high" },
+  Cairo: { type: "cultural", budget: "low" },
+  "Victoria Falls": { type: "adventure", budget: "medium" },
+
+  "New York City": { type: "cultural", budget: "high" },
+  Banff: { type: "nature", budget: "high" },
+  Cancun: { type: "relaxation", budget: "medium" },
+  "Grand Canyon": { type: "adventure", budget: "medium" },
+  Havana: { type: "cultural", budget: "low" },
+
+  "Machu Picchu": { type: "adventure", budget: "medium" },
+  "Rio de Janeiro": { type: "relaxation", budget: "medium" },
+  Patagonia: { type: "adventure", budget: "high" },
+  Cartagena: { type: "cultural", budget: "low" },
+  "Galápagos Islands": { type: "nature", budget: "high" },
+
+  Sydney: { type: "cultural", budget: "high" },
+  Queenstown: { type: "adventure", budget: "high" },
+  Fiji: { type: "relaxation", budget: "medium" },
+  "Bora Bora": { type: "relaxation", budget: "high" },
+  "Great Barrier Reef": { type: "nature", budget: "high" }
+};
+
+function getTaggedDestinations() {
+  return destinations.map(function (destination) {
+    const tag = destinationTripTags[destination.name];
+
+    return {
+      ...destination,
+      type: tag ? tag.type : "nature",
+      budget: tag ? tag.budget : "medium"
+    };
+  });
+}
+
+function resetRandomTripGenerator() {
+  travelTypeSelect.value = "";
+  budgetRangeSelect.value = "";
+
+  randomResultBox.classList.add("hidden");
+
+  randomImage.src = "";
+  randomImage.alt = "";
+
+  randomName.textContent = "(name)!";
+  randomLocation.textContent = "";
+  randomDescription.textContent = "";
+  randomType.textContent = "";
+  randomBudget.textContent = "";
+
+  wishlistMessage.textContent = "";
+  currentRandomDestination = null;
+
+  randomResultBox.classList.remove("random-pop");
+}
+
+/* ============================= */
+/* Random Trip Generator */
+/* ============================= */
+
+const randomTripForm = document.getElementById("randomTripForm");
+const travelTypeSelect = document.getElementById("travelType");
+const budgetRangeSelect = document.getElementById("budgetRange");
+
+const randomResultBox = document.getElementById("randomResultBox");
+const randomImage = document.getElementById("randomImage");
+const randomName = document.getElementById("randomName");
+const randomLocation = document.getElementById("randomLocation");
+const randomDescription = document.getElementById("randomDescription");
+const randomType = document.getElementById("randomType");
+const randomBudget = document.getElementById("randomBudget");
+
+const surpriseAgainBtn = document.getElementById("surpriseAgainBtn");
+const saveWishlistBtn = document.getElementById("saveWishlistBtn");
+const wishlistMessage = document.getElementById("wishlistMessage");
+const wishlistList = document.getElementById("wishlistList");
+
+let currentRandomDestination = null;
+
+function generateRandomDestination() {
+  const selectedType = travelTypeSelect.value;
+  const selectedBudget = budgetRangeSelect.value;
+
+  if (selectedType === "" || selectedBudget === "") {
+    alert("Please choose a travel type and budget range.");
+    return;
+  }
+
+  const taggedDestinations = getTaggedDestinations();
+
+  const matchingDestinations = taggedDestinations.filter(function (destination) {
+    return destination.type === selectedType && destination.budget === selectedBudget;
+  });
+
+  if (matchingDestinations.length === 0) {
+    randomResultBox.classList.remove("hidden");
+
+    randomImage.src = "";
+    randomImage.alt = "";
+    randomName.textContent = "No exact match found";
+    randomLocation.textContent = "";
+    randomDescription.textContent = "Try changing the travel type or budget range.";
+    randomType.textContent = "";
+    randomBudget.textContent = "";
+
+    currentRandomDestination = null;
+    return;
+  }
+
+  const randomIndex = Math.floor(Math.random() * matchingDestinations.length);
+  currentRandomDestination = matchingDestinations[randomIndex];
+
+  randomResultBox.classList.remove("hidden");
+
+  randomImage.src = currentRandomDestination.image;
+  randomImage.alt = currentRandomDestination.name;
+  randomName.textContent = currentRandomDestination.name + "!";
+  randomLocation.textContent =
+    currentRandomDestination.country + " / " + currentRandomDestination.continent;
+  randomDescription.textContent = currentRandomDestination.description;
+  randomType.textContent = "Type: " + currentRandomDestination.type;
+  randomBudget.textContent = "Budget: " + currentRandomDestination.budget;
+
+  randomResultBox.classList.remove("random-pop");
+
+  setTimeout(function () {
+    randomResultBox.classList.add("random-pop");
+  }, 10);
+
+  wishlistMessage.textContent = "";
+}
+
+function displayWishlist() {
+  if (!wishlistList) return;
+
+  const wishlist = getStoredItems("travelNestWishlist");
+  wishlistList.innerHTML = "";
+
+  if (wishlist.length === 0) {
+    wishlistList.innerHTML = "<li>No saved destinations yet.</li>";
+    return;
+  }
+
+  wishlist.forEach(function (destination) {
+    const item = document.createElement("li");
+    item.textContent =
+      destination.name + " - " + destination.country + " (" + destination.budget + ")";
+    wishlistList.appendChild(item);
+  });
+}
+
+if (randomTripForm) {
+  randomTripForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    generateRandomDestination();
+  });
+}
+
+if (surpriseAgainBtn) {
+  surpriseAgainBtn.addEventListener("click", function () {
+    resetRandomTripGenerator();
+    surpriseAgainBtn.classList.remove("reset-shake");
+
+    setTimeout(function () {
+      surpriseAgainBtn.classList.add("reset-shake");
+    }, 10);
+  });
+}
+
+if (saveWishlistBtn) {
+  saveWishlistBtn.addEventListener("click", function () {
+    if (!currentRandomDestination) {
+      alert("Please generate a destination first.");
+      return;
+    }
+
+    const wishlist = getStoredItems("travelNestWishlist");
+
+    const alreadySaved = wishlist.some(function (destination) {
+      return destination.name === currentRandomDestination.name;
+    });
+
+    if (alreadySaved) {
+      wishlistMessage.textContent = "This destination is already saved.";
+      return;
+    }
+
+    wishlist.push(currentRandomDestination);
+    saveStoredItems("travelNestWishlist", wishlist);
+
+    wishlistMessage.textContent = "Destination saved to your wishlist!";
+    displayWishlist();
+  });
+}
+
+displayWishlist();
