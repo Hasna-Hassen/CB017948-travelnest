@@ -75,25 +75,29 @@
   <!-- keep your Destination of the Day section below this -->
 
 
-  <!-- ═══════════════════════════
-       3. DESTINATION OF THE DAY
-  ════════════════════════════ -->
-  <section id="destination-of-the-day">
+  <section id="destination-of-the-day" aria-labelledby="dotd-heading">
 
-    <div class="dotd-info">
-      <h2></h2>   <!-- "Destination of the Day" -->
-      <p></p>     <!-- Name of destination -->
-    </div>
+  <div class="dotd-info">
+    <p class="section-label">Daily Travel Pick</p>
 
-    <div class="dotd-image">
-      <img src="" alt="" />
-    </div>
+    <h2 id="dotd-heading">Destination of the Day</h2>
 
-    <div class="dotd-stats">
-      <p></p>     <!-- Stats and summary -->
-    </div>
+    <h3 id="dotd-name">Loading destination...</h3>
 
-  </section>
+    <p id="dotd-description">
+      Please wait while we choose today’s destination.
+    </p>
+  </div>
+
+  <div class="dotd-image">
+    <img 
+      id="dotd-img" 
+      src="images/bali.jpg" 
+      alt="Destination of the day"
+    >
+  </div>
+
+</section>
   </main>
   <!--5. FOOTER -->
   <footer id="footer">

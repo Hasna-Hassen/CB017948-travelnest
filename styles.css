@@ -246,28 +246,73 @@
 
 
     /* ════════════════════════════════
-       3. DESTINATION OF THE DAY
-    ════════════════════════════════ */
-    #destination-of-the-day {
-      display: flex;
-      flex-wrap: wrap;           /* stacks on mobile */
-      gap: 1.5rem;
-      padding: 2rem 1.5rem;
-      align-items: flex-start;
-    }
+3. DESTINATION OF THE DAY - MOBILE FIRST
+════════════════════════════════ */
 
-    #destination-of-the-day .dotd-info {}      /* heading + destination name */
-    #destination-of-the-day .dotd-info h2 {}
-    #destination-of-the-day .dotd-info p  {}
+#destination-of-the-day {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 3rem 1.5rem;
+  align-items: center;
+  background-color: #ffffff;
+}
 
-    #destination-of-the-day .dotd-image {}     /* img placeholder */
-    #destination-of-the-day .dotd-image img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+.dotd-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
 
-    #destination-of-the-day .dotd-stats {}     /* stats & summary box */
+.section-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #162E93;
+}
+
+.dotd-info h2 {
+  font-size: 2rem;
+  color: #1e2330;
+}
+
+.dotd-info h3 {
+  font-size: 1.4rem;
+  color: #162E93;
+}
+
+#dotd-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333333;
+  max-width: 650px;
+}
+
+.dotd-image img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+  border-radius: 1rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* Tablet and desktop */
+@media screen and (min-width: 768px) {
+  #destination-of-the-day {
+    grid-template-columns: 1fr 1fr;
+    padding: 4rem 6%;
+  }
+
+  .dotd-info h2 {
+    font-size: 2.4rem;
+  }
+
+  .dotd-image img {
+    height: 340px;
+  }
+}
 
 
     /* 5. FOOTER */
