@@ -27,7 +27,111 @@
     </nav>
 
   </header>
+  <main>
+    <section class="budget-hero reveal">
+      <p class="section-label">Trip</p>
+      <h1>Plan Your Budget</h1>
+      <p>
+        Estimate your travel cost, check your budget level, and save your plan for later.
+      </p>
+    </section>
 
+    <section class="budget-planner-section reveal">
+      <div class="budget-layout">
+
+        <!-- Left box -->
+        <form class="budget-card" id="budgetForm">
+          <h2>Enter your details</h2>
+
+          <div class="form-group">
+            <label for="destination">Destination</label>
+            <input 
+              type="text" 
+              id="destination" 
+              name="destination" 
+              placeholder="Example: Kyoto"
+            />
+            <small class="error-message" id="destinationError"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="days">Number of days</label>
+            <input 
+              type="number" 
+              id="days" 
+              name="days" 
+              placeholder="Example: 5" 
+              min="1"
+            />
+            <small class="error-message" id="daysError"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="dailyBudget">Daily budget</label>
+            <div class="budget-input-row">
+              <select id="currency" name="currency" aria-label="Choose currency">
+                <option value="USD">USD</option>
+                <option value="LKR">LKR</option>
+              </select>
+
+              <input 
+                type="number" 
+                id="dailyBudget" 
+                name="dailyBudget" 
+                placeholder="Example: 80" 
+                min="1"
+              />
+            </div>
+            <small class="error-message" id="budgetError"></small>
+          </div>
+
+          <button type="submit" class="primary-btn">Calculate Budget</button>
+        </form>
+
+        <!-- Right box -->
+        <section class="budget-card results-card" aria-live="polite">
+          <h2>Budget Results</h2>
+
+          <p class="result-label">Estimated total trip cost</p>
+
+          <div class="total-cost-box">
+            <span id="currencyOutput">USD</span>
+            <span id="totalCost">0.00</span>
+          </div>
+
+          <div class="status-area">
+            <p class="result-label">Budget Status</p>
+
+            <div class="status-track">
+              <span id="statusLow">Low</span>
+              <span id="statusModerate">Moderate</span>
+              <span id="statusLuxury">Luxury</span>
+            </div>
+
+            <div class="progress-bar" aria-label="Budget level progress bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <p class="status-text" id="statusText">
+              Enter your budget to see your travel style.
+            </p>
+          </div>
+
+          <button class="secondary-btn" id="saveBudgetBtn" type="button">
+            Save Budget
+          </button>
+        </section>
+
+      </div>
+    </section>
+
+    <section class="saved-budgets-section reveal">
+      <h2>Saved Trip Budgets</h2>
+      <div id="savedBudgetsList" class="saved-budgets-list">
+        <p class="empty-message">No saved budgets yet.</p>
+      </div>
+    </section>
+  </main>
 
 
     <!--5. FOOTER -->

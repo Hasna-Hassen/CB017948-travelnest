@@ -693,3 +693,247 @@ document.addEventListener("keydown", function(event) {
 ========================= */
 
 displayDestinations(destinations);
+
+/* ============================= */
+/* Trip Budget Planner */
+/* ============================= */
+
+const budgetForm = document.getElementById("budgetForm");
+const destinationInput = document.getElementById("destination");
+const daysInput = document.getElementById("days");
+const dailyBudgetInput = document.getElementById("dailyBudget");
+const currencyInput = document.getElementById("currency");
+
+const destinationError = document.getElementById("destinationError");
+const daysError = document.getElementById("daysError");
+const budgetError = document.getElementById("budgetError");
+
+const currencyOutput = document.getElementById("currencyOutput");
+const totalCostOutput = document.getElementById("totalCost");
+const statusText = document.getElementById("statusText");
+const progressFill = document.getElementById("progressFill");
+const saveBudgetBtn = document.getElementById("saveBudgetBtn");
+
+const statusLow = document.getElementById("statusLow");
+const statusModerate = document.getElementById("statusModerate");
+const statusLuxury = document.getElementById("statusLuxury");
+
+const savedBudgetsList = document.getElementById("savedBudgetsList");
+
+let latestBudget = null;
+
+function clearBudgetErrors() {
+  destinationError.textContent = "";
+  daysError.textContent = "";
+  budgetError.textContent = "";
+}
+
+function validateBudgetForm(destination, days, dailyBudget) {
+  let isValid = true;
+
+  clearBudgetErrors();
+
+  if (destination === "") {
+    destinationError.textContent = "Please enter a destination.";
+    isValid = false;
+  }
+
+  if (days <= 0 || Number.isNaN(days)) {
+    daysError.textContent = "Please enter a valid number of days.";
+    isValid = false;
+  }
+
+  if (dailyBudget <= 0 || Number.isNaN(dailyBudget)) {
+    budgetError.textContent = "Please enter a valid daily budget.";
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+function getBudgetStatus(dailyBudget, currency) {
+  let lowLimit;
+  let moderateLimit;
+
+  if (currency === "LKR") {
+    lowLimit = 15000;
+    moderateLimit = 45000;
+  } else {
+    lowLimit = 50;
+    moderateLimit = 150;
+  }
+
+  if (dailyBudget <= lowLimit) {
+    return {
+      label: "Low",
+      message: "This is a low budget trip. Great for simple stays, public transport, and affordable meals.",
+      progress: 33
+    };
+  }
+
+  if (dailyBudget <= moderateLimit) {
+    return {
+      label: "Moderate",
+      message: "This is a moderate budget trip. You can balance comfort, activities, and good food.",
+      progress: 66
+    };
+  }
+
+  return {
+    label: "Luxury",
+    message: "This is a luxury budget trip. You can plan premium stays, private transport, and special experiences.",
+    progress: 100
+  };
+}
+
+function updateActiveStatus(status) {
+  statusLow.classList.remove("active-status");
+  statusModerate.classList.remove("active-status");
+  statusLuxury.classList.remove("active-status");
+
+  if (status === "Low") {
+    statusLow.classList.add("active-status");
+  } else if (status === "Moderate") {
+    statusModerate.classList.add("active-status");
+  } else {
+    statusLuxury.classList.add("active-status");
+  }
+}
+
+function animateCounter(element, endValue) {
+  let startValue = 0;
+  const duration = 900;
+  const startTime = performance.now();
+
+  function updateCounter(currentTime) {
+    const elapsedTime = currentTime - startTime;
+    const progress = Math.min(elapsedTime / duration, 1);
+
+    const currentValue = startValue + (endValue - startValue) * progress;
+    element.textContent = currentValue.toFixed(2);
+
+    if (progress < 1) {
+      requestAnimationFrame(updateCounter);
+    }
+  }
+
+  requestAnimationFrame(updateCounter);
+}
+
+function displaySavedBudgets() {
+  if (!savedBudgetsList) return;
+
+  const savedBudgets = JSON.parse(localStorage.getItem("travelNestBudgets")) || [];
+
+  if (savedBudgets.length === 0) {
+    savedBudgetsList.innerHTML = `<p class="empty-message">No saved budgets yet.</p>`;
+    return;
+  }
+
+  savedBudgetsList.innerHTML = "";
+
+  savedBudgets.forEach(function (budget) {
+    const budgetItem = document.createElement("article");
+    budgetItem.className = "saved-budget-item";
+
+    budgetItem.innerHTML = `
+      <h3>${budget.destination}</h3>
+      <p><strong>Days:</strong> ${budget.days}</p>
+      <p><strong>Daily Budget:</strong> ${budget.currency} ${budget.dailyBudget.toFixed(2)}</p>
+      <p><strong>Total Cost:</strong> ${budget.currency} ${budget.totalCost.toFixed(2)}</p>
+      <p><strong>Status:</strong> ${budget.status}</p>
+    `;
+
+    savedBudgetsList.appendChild(budgetItem);
+  });
+}
+
+if (budgetForm) {
+  budgetForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const destination = destinationInput.value.trim();
+    const days = Number(daysInput.value);
+    const dailyBudget = Number(dailyBudgetInput.value);
+    const currency = currencyInput.value;
+
+    const isValid = validateBudgetForm(destination, days, dailyBudget);
+
+    if (!isValid) return;
+
+    const totalCost = days * dailyBudget;
+    const budgetStatus = getBudgetStatus(dailyBudget, currency);
+
+    currencyOutput.textContent = currency;
+    animateCounter(totalCostOutput, totalCost);
+
+    statusText.textContent = budgetStatus.message;
+    progressFill.style.width = budgetStatus.progress + "%";
+    updateActiveStatus(budgetStatus.label);
+
+    latestBudget = {
+      destination: destination,
+      days: days,
+      dailyBudget: dailyBudget,
+      currency: currency,
+      totalCost: totalCost,
+      status: budgetStatus.label
+    };
+  });
+}
+
+if (saveBudgetBtn) {
+  saveBudgetBtn.addEventListener("click", function () {
+    if (!latestBudget) {
+      statusText.textContent = "Please calculate a budget before saving.";
+      return;
+    }
+
+    const savedBudgets = JSON.parse(localStorage.getItem("travelNestBudgets")) || [];
+
+    savedBudgets.push(latestBudget);
+
+    localStorage.setItem("travelNestBudgets", JSON.stringify(savedBudgets));
+
+    displaySavedBudgets();
+
+    statusText.textContent = "Budget saved successfully.";
+  });
+}
+
+/* ============================= */
+/* Reveal on scroll animation */
+/* ============================= */
+
+const revealElements = document.querySelectorAll(".reveal");
+
+function revealOnScroll() {
+  revealElements.forEach(function (element) {
+    const elementTop = element.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if (elementTop < windowHeight - 80) {
+      element.classList.add("show");
+    }
+  });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
+
+/* ============================= */
+/* Mobile navbar */
+/* Keep this only if you do not already have navbar JS */
+/* ============================= */
+
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const navLinks = document.getElementById("navLinks");
+
+if (hamburgerBtn && navLinks) {
+  hamburgerBtn.addEventListener("click", function () {
+    navLinks.classList.toggle("show-nav");
+  });
+}
+
+/* Load saved budgets when page opens */
+displaySavedBudgets();
