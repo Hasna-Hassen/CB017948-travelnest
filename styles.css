@@ -46,14 +46,13 @@
         height: auto;
     }
     
-    #header nav {}               /* navigation link list */
     #header nav ul {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
       gap: 1.5rem;
     }
-    #header nav ul li a {}
+    
 
 
 /* ════════════════════════════════
@@ -424,12 +423,10 @@
       justify-content: center;
     }
 
-    #footer .footer-explore {}
     #footer .footer-explore h3 { color: white; }
     #footer .footer-explore ul { list-style: none; }
     #footer .footer-explore ul li a { color: white; }
 
-    #footer .footer-help {}
     #footer .footer-help h3 { color: white; }
     #footer .footer-help ul { list-style: none; }
     #footer .footer-help ul li a { color: white; }
