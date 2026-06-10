@@ -1027,6 +1027,281 @@ function resetRandomTripGenerator() {
 }
 
 /* ============================= */
+/* Trip Budget Planner */
+/* ============================= */
+
+const budgetForm = document.getElementById("budgetForm");
+const destinationInput = document.getElementById("destination");
+const daysInput = document.getElementById("days");
+const dailyBudgetInput = document.getElementById("dailyBudget");
+const currencyInput = document.getElementById("currency");
+
+const destinationError = document.getElementById("destinationError");
+const daysError = document.getElementById("daysError");
+const budgetError = document.getElementById("budgetError");
+
+const currencyOutput = document.getElementById("currencyOutput");
+const totalCostOutput = document.getElementById("totalCost");
+const statusText = document.getElementById("statusText");
+const progressFill = document.getElementById("progressFill");
+const saveBudgetBtn = document.getElementById("saveBudgetBtn");
+
+const statusLow = document.getElementById("statusLow");
+const statusModerate = document.getElementById("statusModerate");
+const statusLuxury = document.getElementById("statusLuxury");
+
+const savedBudgetsList = document.getElementById("savedBudgetsList");
+
+let latestBudget = null;
+
+/* Load destination names into dropdown */
+function loadBudgetDestinations() {
+  if (!destinationInput || typeof destinationTripTags === "undefined") return;
+
+  Object.keys(destinationTripTags).forEach(function (destinationName) {
+    const option = document.createElement("option");
+    option.value = destinationName;
+    option.textContent = destinationName;
+
+    destinationInput.appendChild(option);
+  });
+}
+
+/* Clear form errors */
+function clearBudgetErrors() {
+  destinationError.textContent = "";
+  daysError.textContent = "";
+  budgetError.textContent = "";
+}
+
+/* Validate form */
+function validateBudgetForm(destinationName, days, dailyBudget) {
+  let isValid = true;
+
+  clearBudgetErrors();
+
+  if (destinationName === "") {
+    destinationError.textContent = "Please choose a destination.";
+    isValid = false;
+  }
+
+  if (Number.isNaN(days) || days <= 0) {
+    daysError.textContent = "Please enter a valid number of days.";
+    isValid = false;
+  }
+
+  if (Number.isNaN(dailyBudget) || dailyBudget <= 0) {
+    budgetError.textContent = "Please enter a valid daily budget.";
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+/* Give budget limits based on destination budget category */
+function getBudgetLimits(destinationBudget, currency) {
+  let limits;
+
+  if (destinationBudget === "low") {
+    limits = {
+      low: 40,
+      moderate: 90
+    };
+  } else if (destinationBudget === "medium") {
+    limits = {
+      low: 70,
+      moderate: 160
+    };
+  } else {
+    limits = {
+      low: 120,
+      moderate: 260
+    };
+  }
+
+  /*
+    Your destination data does not have exact prices,
+    so these are simple estimated daily budget ranges.
+
+    USD:
+    low destination: low <= 40, moderate <= 90, luxury above 90
+    medium destination: low <= 70, moderate <= 160, luxury above 160
+    high destination: low <= 120, moderate <= 260, luxury above 260
+  */
+
+  if (currency === "LKR") {
+    limits.low = limits.low * 300;
+    limits.moderate = limits.moderate * 300;
+  }
+
+  return limits;
+}
+
+/* Work out budget status */
+function getBudgetStatus(destinationName, dailyBudget, currency) {
+  const selectedDestination = destinationTripTags[destinationName];
+  const limits = getBudgetLimits(selectedDestination.budget, currency);
+
+  if (dailyBudget <= limits.low) {
+    return {
+      label: "Low",
+      progress: 33,
+      message: `${destinationName} is a ${selectedDestination.budget}-budget destination. Your daily budget is low, so this trip may need cheaper stays, public transport, and simple meals.`
+    };
+  }
+
+  if (dailyBudget <= limits.moderate) {
+    return {
+      label: "Moderate",
+      progress: 66,
+      message: `${destinationName} is a ${selectedDestination.budget}-budget destination. Your daily budget is moderate, so you can plan a balanced trip.`
+    };
+  }
+
+  return {
+    label: "Luxury",
+    progress: 100,
+    message: `${destinationName} is a ${selectedDestination.budget}-budget destination. Your daily budget is luxury level, so you can include premium stays and activities.`
+  };
+}
+
+/* Highlight low/moderate/luxury label */
+function updateActiveStatus(status) {
+  statusLow.classList.remove("active-status");
+  statusModerate.classList.remove("active-status");
+  statusLuxury.classList.remove("active-status");
+
+  if (status === "Low") {
+    statusLow.classList.add("active-status");
+  } else if (status === "Moderate") {
+    statusModerate.classList.add("active-status");
+  } else {
+    statusLuxury.classList.add("active-status");
+  }
+}
+
+/* Animated counter */
+function animateCounter(element, endValue) {
+  let startValue = 0;
+  const duration = 900;
+  const startTime = performance.now();
+
+  function updateCounter(currentTime) {
+    const elapsedTime = currentTime - startTime;
+    const progress = Math.min(elapsedTime / duration, 1);
+
+    const currentValue = startValue + (endValue - startValue) * progress;
+    element.textContent = currentValue.toFixed(2);
+
+    if (progress < 1) {
+      requestAnimationFrame(updateCounter);
+    }
+  }
+
+  requestAnimationFrame(updateCounter);
+}
+
+/* Display saved budgets */
+function displaySavedBudgets() {
+  if (!savedBudgetsList) return;
+
+  const savedBudgets = JSON.parse(localStorage.getItem("travelNestBudgets")) || [];
+
+  if (savedBudgets.length === 0) {
+    savedBudgetsList.innerHTML = `<p class="empty-message">No saved budgets yet.</p>`;
+    return;
+  }
+
+  savedBudgetsList.innerHTML = "";
+
+  savedBudgets.forEach(function (budget) {
+    const budgetItem = document.createElement("article");
+    budgetItem.className = "saved-budget-item";
+
+    budgetItem.innerHTML = `
+      <h3>${budget.destination}</h3>
+      <p><strong>Trip Type:</strong> ${budget.type}</p>
+      <p><strong>Destination Budget Level:</strong> ${budget.destinationBudget}</p>
+      <p><strong>Days:</strong> ${budget.days}</p>
+      <p><strong>Daily Budget:</strong> ${budget.currency} ${budget.dailyBudget.toFixed(2)}</p>
+      <p><strong>Total Cost:</strong> ${budget.currency} ${budget.totalCost.toFixed(2)}</p>
+      <p><strong>Your Budget Status:</strong> ${budget.status}</p>
+    `;
+
+    savedBudgetsList.appendChild(budgetItem);
+  });
+}
+
+/* Calculate budget */
+if (budgetForm) {
+  budgetForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const destinationName = destinationInput.value;
+    const days = Number(daysInput.value);
+    const dailyBudget = Number(dailyBudgetInput.value);
+    const currency = currencyInput.value;
+
+    const isValid = validateBudgetForm(destinationName, days, dailyBudget);
+
+    if (!isValid) return;
+
+    const selectedDestination = destinationTripTags[destinationName];
+
+    if (!selectedDestination) {
+      destinationError.textContent = "Destination data could not be found.";
+      return;
+    }
+
+    const totalCost = days * dailyBudget;
+    const budgetStatus = getBudgetStatus(destinationName, dailyBudget, currency);
+
+    currencyOutput.textContent = currency;
+    animateCounter(totalCostOutput, totalCost);
+
+    statusText.textContent = budgetStatus.message;
+    progressFill.style.width = budgetStatus.progress + "%";
+
+    updateActiveStatus(budgetStatus.label);
+
+    latestBudget = {
+      destination: destinationName,
+      type: selectedDestination.type,
+      destinationBudget: selectedDestination.budget,
+      days: days,
+      dailyBudget: dailyBudget,
+      currency: currency,
+      totalCost: totalCost,
+      status: budgetStatus.label
+    };
+  });
+}
+
+/* Save budget */
+if (saveBudgetBtn) {
+  saveBudgetBtn.addEventListener("click", function () {
+    if (!latestBudget) {
+      statusText.textContent = "Please calculate a budget before saving.";
+      return;
+    }
+
+    const savedBudgets = JSON.parse(localStorage.getItem("travelNestBudgets")) || [];
+
+    savedBudgets.push(latestBudget);
+
+    localStorage.setItem("travelNestBudgets", JSON.stringify(savedBudgets));
+
+    displaySavedBudgets();
+
+    statusText.textContent = "Budget saved successfully.";
+  });
+}
+
+/* Run when page opens */
+loadBudgetDestinations();
+displaySavedBudgets();
+
+/* ============================= */
 /* Random Trip Generator */
 /* ============================= */
 
